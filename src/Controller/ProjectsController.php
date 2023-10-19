@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/projects')]
 class ProjectsController extends AbstractController
 {
-    #[Route('/list', name: 'projects_list')]
+    #[Route('/list', name: 'project_list')]
     public function index(ProjectsRepository $repo): Response
     {
         $projects = $repo->findAll();
@@ -30,7 +30,7 @@ class ProjectsController extends AbstractController
     public function show(?Projects $projects)
     {
         if ($projects === null) {
-            return $this->redirectToRoute('projects_list');
+            return $this->redirectToRoute('project_list');
         }
         return $this->render('projects/show.html.twig', [
             'projects' => $projects,
@@ -47,12 +47,35 @@ class ProjectsController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $em->persist($project);
             $em->flush();
-            return $this->redirectToRoute('projects_list');
+            return $this->redirectToRoute('project_list');
         }
 
         return $this->render('projects/new.html.twig', [
             'title' => 'Ajouter un project',
             'form' => $form,
+        ]);
+    }
+
+    #[Route('/edit/{id}', name: 'project_edit')]
+
+    public function edit(Request $request, ?Projects $project, EntityManagerInterface $em): Response
+    {
+        if ($project === null) {
+            return $this->redirectToRoute('project_list');
+        }
+        $form = $this->createForm(FormProjectsType::class, $project);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em->flush();
+            return $this->redirectToRoute('project_list');
+        }
+
+        return $this->render('projects/new.html.twig', [
+            'title' => 'Editer un project',
+            'form' => $form,
+            'button_label' => 'enregistrer',
         ]);
     }
 }
