@@ -21,9 +21,13 @@ class Projects
     #[ORM\OneToMany(mappedBy: 'projects', targetEntity: Tasks::class)]
     private Collection $Tasks;
 
+    #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'projects_id')]
+    private Collection $users;
+
     public function __construct()
     {
         $this->Tasks = new ArrayCollection();
+        $this->users = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -68,6 +72,33 @@ class Projects
             if ($task->getProjects() === $this) {
                 $task->setProjects(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, User>
+     */
+    public function getUsers(): Collection
+    {
+        return $this->users;
+    }
+
+    public function addUser(User $user): static
+    {
+        if (!$this->users->contains($user)) {
+            $this->users->add($user);
+            $user->addProjectsId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUser(User $user): static
+    {
+        if ($this->users->removeElement($user)) {
+            $user->removeProjectsId($this);
         }
 
         return $this;
