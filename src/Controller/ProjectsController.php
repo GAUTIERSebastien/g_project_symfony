@@ -7,14 +7,16 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+#[Route('/projects')]
 class ProjectsController extends AbstractController
 {
-    #[Route('/projects', name: 'app_projects')]
+    #[Route('/list', name: 'projects_list')]
     public function index(ProjectsRepository $repo): Response
     {
-        $project = $repo->findAll();
+        $projects = $repo->findAll();
         return $this->render('projects/index.html.twig', [
-            'controller_name' => 'ProjectsController',
+            'controller_name' => 'Liste des projects',
+            'projects' => $projects,
         ]);
     }
 }
