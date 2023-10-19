@@ -18,6 +18,7 @@ class ProjectsController extends AbstractController
     #[Route('/list', name: 'project_list')]
     public function index(ProjectsRepository $repo): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_USER', null, 'Vous ne pouvez pas accéder à cette url');
         $projects = $repo->findAll();
         return $this->render('projects/index.html.twig', [
             'controller_name' => 'Liste des projects',
@@ -40,6 +41,7 @@ class ProjectsController extends AbstractController
     #[Route('/new', name: 'project_new')]
     public function new(Request $request, EntityManagerInterface $em): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_USER', null, 'Vous ne pouvez pas accéder à cette url');
         $project = new Projects();
         $form = $this->createForm(FormProjectsType::class, $project);
 
@@ -60,10 +62,14 @@ class ProjectsController extends AbstractController
 
     public function edit(Request $request, ?Projects $project, EntityManagerInterface $em): Response
     {
+
+        $this->denyAccessUnlessGranted('ROLE_USER', null, 'Vous ne pouvez pas accéder à cette url');
         if ($project === null) {
             return $this->redirectToRoute('project_list');
         }
         $form = $this->createForm(FormProjectsType::class, $project);
+
+
 
         $form->handleRequest($request);
 
@@ -82,10 +88,11 @@ class ProjectsController extends AbstractController
     #[Route('/delete/{id}', name: 'project_delete')]
     public function delete(Request $request, Projects $project, EntityManagerInterface $entityManager): Response
     {
-        // ($this->isCsrfTokenValid('delete' . $project->getId(), $request->request->get('_token'))) {
+        $this->denyAccessUnlessGranted('ROLE_USER', null, 'Vous ne pouvez pas accéder à cette url');
+
         $entityManager->remove($project);
         $entityManager->flush();
-        // }
+
 
         return $this->redirectToRoute('project_list', [], Response::HTTP_SEE_OTHER);
     }
