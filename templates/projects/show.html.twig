@@ -3,7 +3,13 @@
 {% block title %}{{ projects.title }}{% endblock %}
 
 {% block body %}
-<div class="example-wrapper">
-    <h1>{{ projects.title }}!</h1>
-</div>
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="example-wrapper bg-light p-5 rounded text-center">
+                    <h1 class="display-4">{{ projects.title }}!</h1>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
