@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Projects;
 use App\Repository\ProjectsRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,6 +17,15 @@ class ProjectsController extends AbstractController
         $projects = $repo->findAll();
         return $this->render('projects/index.html.twig', [
             'controller_name' => 'Liste des projects',
+            'projects' => $projects,
+        ]);
+    }
+
+
+    #[Route('/show/{id}', name: 'project_show')]
+    public function show(Projects $projects)
+    {
+        return $this->render('projects/show.html.twig', [
             'projects' => $projects,
         ]);
     }
