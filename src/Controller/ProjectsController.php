@@ -78,4 +78,15 @@ class ProjectsController extends AbstractController
             'button_label' => 'enregistrer',
         ]);
     }
+
+    #[Route('/delete/{id}', name: 'project_delete')]
+    public function delete(Request $request, Projects $project, EntityManagerInterface $entityManager): Response
+    {
+        // ($this->isCsrfTokenValid('delete' . $project->getId(), $request->request->get('_token'))) {
+        $entityManager->remove($project);
+        $entityManager->flush();
+        // }
+
+        return $this->redirectToRoute('project_list', [], Response::HTTP_SEE_OTHER);
+    }
 }
