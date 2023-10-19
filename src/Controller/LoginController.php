@@ -14,7 +14,7 @@ class LoginController extends AbstractController
     {
         //Récupération des erreurs de connexion
         $error = $authenticationUtils->getLastAuthenticationError();
-        //Récupéartion du nom d'utilisateur soumis s'il existe
+        //Récupération du nom d'utilisateur soumis s'il existe
         $lastUsername = $authenticationUtils->getLastUsername();
 
         return $this->render('login/index.html.twig', [
