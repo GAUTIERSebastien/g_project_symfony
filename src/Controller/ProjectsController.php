@@ -23,8 +23,11 @@ class ProjectsController extends AbstractController
 
 
     #[Route('/show/{id}', name: 'project_show')]
-    public function show(Projects $projects)
+    public function show(?Projects $projects)
     {
+        if ($projects === null) {
+            return $this->redirectToRoute('projects_list');
+        }
         return $this->render('projects/show.html.twig', [
             'projects' => $projects,
         ]);
