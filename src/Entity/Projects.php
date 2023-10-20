@@ -68,7 +68,6 @@ class Projects
     public function removeTask(Tasks $task): static
     {
         if ($this->Tasks->removeElement($task)) {
-            // set the owning side to null (unless already changed)
             if ($task->getProjects() === $this) {
                 $task->setProjects(null);
             }

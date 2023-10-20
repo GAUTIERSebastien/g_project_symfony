@@ -12,6 +12,12 @@ symfony server:ca:install
 symfony server:start -d
 ```
 
+## Arrêter le serveur
+
+```bash
+symfony server:stop
+```
+
 ## Isérer un utilisateur dans la base de données
 
 ```sql

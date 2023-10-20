@@ -49,6 +49,7 @@ class ProjectsController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $em->persist($project);
             $em->flush();
+            $this->addFlash('success', 'Le project a bien été ajouté');
             return $this->redirectToRoute('project_list');
         }
 
@@ -75,6 +76,7 @@ class ProjectsController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em->flush();
+            $this->addFlash('success', 'Le project a bien été modifié');
             return $this->redirectToRoute('project_list');
         }
 
