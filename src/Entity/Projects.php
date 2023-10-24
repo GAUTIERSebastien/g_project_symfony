@@ -19,14 +19,14 @@ class Projects
     private ?string $title = null;
 
     #[ORM\OneToMany(mappedBy: 'projects', targetEntity: Tasks::class)]
-    private Collection $Tasks;
+    private Collection $tasks;
 
     #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'projects_id')]
     private Collection $users;
 
     public function __construct()
     {
-        $this->Tasks = new ArrayCollection();
+        $this->tasks = new ArrayCollection();
         $this->users = new ArrayCollection();
     }
 
@@ -52,13 +52,13 @@ class Projects
      */
     public function getTasks(): Collection
     {
-        return $this->Tasks;
+        return $this->tasks;
     }
 
     public function addTask(Tasks $task): static
     {
-        if (!$this->Tasks->contains($task)) {
-            $this->Tasks->add($task);
+        if (!$this->tasks->contains($task)) {
+            $this->tasks->add($task);
             $task->setProjects($this);
         }
 
@@ -67,7 +67,7 @@ class Projects
 
     public function removeTask(Tasks $task): static
     {
-        if ($this->Tasks->removeElement($task)) {
+        if ($this->tasks->removeElement($task)) {
             if ($task->getProjects() === $this) {
                 $task->setProjects(null);
             }
